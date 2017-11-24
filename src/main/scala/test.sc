@@ -13,7 +13,7 @@ isPrime(47)
 isPrime(139)
 isPrime(1)
 isPrime(0)
-
+isPrime(6)
 
 
 def isTwinPrime(n1 : Int, n2 : Int) = {
@@ -27,41 +27,51 @@ isTwinPrime(6,8)
 isTwinPrime(0,2)
 
 
-var res = Boolean
-
-
-var twinPrimeList = List[Int]()
-
-5 to 14 by 3
-(5 until 14).toList
-
-
-
-
-/*def twinPrimeList(n : Int) : List[Int] = {
-  (2 until n).toList
-
-  var i = 2
-  var j = i + 2
-
-  isTwinPrime(i,j) match{
-    case true => i :: j :: twinPrimeList
-    case false
-
-  }*/
-
-  def twinPrime(n : Int) : List[Int] = {
-
-    for(i <- 0 until n){
-      val j = i + 2
-      isTwinPrime(i,j) match{
-        case true => i :: j :: twinPrimeList
-        case false => twinPrimeList ::: twinPrime(n)
-      }
-    }
-    twinPrimeList
+def twinPrimeList(n : Int) : List[Int] = {
+  n match{
+    case x if x < 3 => Nil
+    case _ => if(isTwinPrime(n - 2, n) || isTwinPrime(n + 2,n))
+      n :: twinPrimeList(n - 1).reverse
+    else twinPrimeList(n - 1).reverse
   }
-twinPrime(10)
+}
+twinPrimeList(50)
+
+def goldbachsConjecture(n : Int) = {
+  isEven(n) && (n > 2) match{
+    case false => "number must be even and greater than 2"
+    case true => goldbach(n)
+  }
+
+}
+
+
+def goldbach(n :Int) = {
+  val primes : List[Int] = (1 to n).toList.filter(x => isPrime(x))
+  primes match {
+    case head :: _ => if(primes.contains(n - head))
+      println(n - head + " + " + head + "=" + n)
+    case _ => "empty"
+  }
+
+}
+
+def isEven(n : Int) = {
+  n % 2 match{
+    case 0 => true
+    case _ => false
+  }
+}
+
+goldbachsConjecture(28)
+
+
+
+
+
+
+
+
 
 
 
